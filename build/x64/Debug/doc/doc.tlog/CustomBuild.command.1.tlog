@@ -1,0 +1,24 @@
+^C:\USERS\RAYKP\ONEDRIVE\DESKTOP\JUNIOR\CS207\CODE\RKP_BLACKJACK\BUILD\CMAKEFILES\86FBB862790B8C55F17A3AF6D3E8C4C8\DOC.RULE
+setlocal
+cd C:\Users\raykp\OneDrive\Desktop\Junior\CS207\code\RKP_BlackJack
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\mingw64\bin\doxygen.exe C:/Users/raykp/OneDrive/Desktop/Junior/CS207/code/RKP_BlackJack/docs/Doxyfile
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\RAYKP\ONEDRIVE\DESKTOP\JUNIOR\CS207\CODE\RKP_BLACKJACK\CMAKELISTS.TXT
+setlocal
+C:\mingw64\bin\cmake.exe -SC:/Users/raykp/OneDrive/Desktop/Junior/CS207/code/RKP_BlackJack -BC:/Users/raykp/OneDrive/Desktop/Junior/CS207/code/RKP_BlackJack/build --check-stamp-file C:/Users/raykp/OneDrive/Desktop/Junior/CS207/code/RKP_BlackJack/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

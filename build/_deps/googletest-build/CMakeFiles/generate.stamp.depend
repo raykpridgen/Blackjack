@@ -1,0 +1,4 @@
+# CMake generation dependency list for this directory.
+C:/Users/raykp/OneDrive/Desktop/Junior/CS207/code/RKP_BlackJack/build/_deps/googletest-src/CMakeLists.txt
+C:/mingw64/share/cmake-3.28/Modules/CMakeDependentOption.cmake
+C:/mingw64/share/cmake-3.28/Modules/GNUInstallDirs.cmake

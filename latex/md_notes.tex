@@ -1,0 +1,203 @@
+\chapter{Details for Black\+Jack Application}
+\hypertarget{md_notes}{}\label{md_notes}\index{Details for BlackJack Application@{Details for BlackJack Application}}
+\label{md_notes_autotoc_md0}%
+\Hypertarget{md_notes_autotoc_md0}%
+ \hypertarget{md_notes_autotoc_md1}{}\doxysection{\texorpdfstring{Tools to use for Black\+Jack}{Tools to use for Black\+Jack}}\label{md_notes_autotoc_md1}
+
+\begin{DoxyItemize}
+\item cmake (compile and link all source code)
+\item gtest (unit test all public class functions)
+\item doxygen (documentation)
+\end{DoxyItemize}\hypertarget{md_notes_autotoc_md2}{}\doxysection{\texorpdfstring{Directory Structure}{Directory Structure}}\label{md_notes_autotoc_md2}
+Create the following folder structure in the root directory \mbox{[}probably called CPPBlack\+Jack\mbox{]}
+
+
+\begin{DoxyItemize}
+\item app -\/ This folder will hold the main, probably called game.\+cpp or blackjack.\+cpp, CMake\+Lists.\+txt
+\item build -\/ cmake build files (you should never alter any of the files in the build folder)
+\item docs -\/ doxygen files (doxygen -\/g)
+\item inc -\/ Card.\+h, Deck.\+h, Player.\+h, CMake\+Lists.\+txt (these might also be .hpp files)
+\item src -\/ Card.\+cpp, Deck.\+cpp, Player.\+cpp, CMake\+Lists.\+txt
+\item tests -\/ unit tests, CMake\+Lists.\+txt
+\item CMake\+Lists.\+txt
+\item README.\+md
+\end{DoxyItemize}
+
+Best practices say that each and every folder (except for build and docs) has it\textquotesingle{}s own CMake\+Lists.\+txt file. Each CMake\+Lists.\+txt has its purpose.\hypertarget{md_notes_autotoc_md3}{}\doxysection{\texorpdfstring{The root CMake\+Lists.\+txt}{The root CMake\+Lists.\+txt}}\label{md_notes_autotoc_md3}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Almost\ all\ CMake\ files\ should\ start\ with\ cmake\ version\ info}
+\DoxyCodeLine{cmake\_minimum\_required(VERSION\ 3.22)}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ A\ compatible\ C++\ compiler\ that\ supports\ at\ least\ C++14}
+\DoxyCodeLine{set(CMAKE\_CXX\_STANDARD\ 17)}
+\DoxyCodeLine{set(CMAKE\_CXX\_STANDARD\_REQUIRED\ ON)}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Project\ name\ required}
+\DoxyCodeLine{project(BlackJack\ }
+\DoxyCodeLine{\ \ \ \ VERSION\ 1.0.0\ \#\ major,\ minor,\ patch}
+\DoxyCodeLine{\ \ \ \ LANGUAGES\ C\ CXX)}
+\DoxyCodeLine{}
+\DoxyCodeLine{add\_subdirectory(src)}
+\DoxyCodeLine{add\_subdirectory(app)}
+\DoxyCodeLine{add\_subdirectory(inc)}
+
+\end{DoxyCode}
+ \hypertarget{md_notes_autotoc_md4}{}\doxysection{\texorpdfstring{app folder}{app folder}}\label{md_notes_autotoc_md4}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ name\ the\ executable\ and\ list\ the\ main\ file\ (Game.cpp\ in\ this\ case)}
+\DoxyCodeLine{add\_executable(BlackJack\ Game.cpp)}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ all\ the\ .cpp\ files\ in\ src\ folder\ will\ compile\ to\ a\ linked\ library,\ in\ this\ case\ called\ CardLib\ (see\ src\ folder)}
+\DoxyCodeLine{target\_link\_libraries(BlackJack\ PUBLIC\ CardLib)}
+\DoxyCodeLine{target\_include\_directories(BlackJack\ PRIVATE\ "{}\$\{CMAKE\_CURRENT\_SOURCE\_DIR\}"{})}
+
+\end{DoxyCode}
+\hypertarget{md_notes_autotoc_md5}{}\doxysection{\texorpdfstring{src folder}{src folder}}\label{md_notes_autotoc_md5}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#create\ a\ link\ library\ out\ of\ all\ the\ classes}
+\DoxyCodeLine{add\_library(CardLib\ STATIC}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ Card.cpp}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ Deck.cpp}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ Player.cpp)}
+\DoxyCodeLine{}
+\DoxyCodeLine{target\_include\_directories(CardLib\ PUBLIC\ "{}\$\{CMAKE\_CURRENT\_SOURCE\_DIR\}"{})}
+
+\end{DoxyCode}
+\hypertarget{md_notes_autotoc_md6}{}\doxysection{\texorpdfstring{inc folder}{inc folder}}\label{md_notes_autotoc_md6}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{target\_include\_directories(CardLib\ PUBLIC\ "{}\$\{CMAKE\_CURRENT\_SOURCE\_DIR\}"{})}
+
+\end{DoxyCode}
+\hypertarget{md_notes_autotoc_md7}{}\doxysection{\texorpdfstring{All gtest unit testing below can wait}{All gtest unit testing below can wait}}\label{md_notes_autotoc_md7}
+
+\begin{DoxyItemize}
+\item But in a production environment you could design unit tests first.
+\end{DoxyItemize}\hypertarget{md_notes_autotoc_md8}{}\doxysection{\texorpdfstring{tests folder}{tests folder}}\label{md_notes_autotoc_md8}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{add\_executable(}
+\DoxyCodeLine{\ \ \ \ blackjacktests}
+\DoxyCodeLine{\ \ \ \ blackjacktest.cpp}
+\DoxyCodeLine{)}
+\DoxyCodeLine{}
+\DoxyCodeLine{target\_link\_libraries(}
+\DoxyCodeLine{\ \ \ \ blackjacktests}
+\DoxyCodeLine{\ \ \ \ GTest::gtest\_main}
+\DoxyCodeLine{\ \ \ \ CardLib}
+\DoxyCodeLine{)}
+
+\end{DoxyCode}
+\hypertarget{md_notes_autotoc_md9}{}\doxysection{\texorpdfstring{root CMake\+Lists.\+txt}{root CMake\+Lists.\+txt}}\label{md_notes_autotoc_md9}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Add\ this\ to\ the\ bottom\ of\ the\ file\ for\ googletest\ unit\ testing}
+\DoxyCodeLine{}
+\DoxyCodeLine{include(FetchContent)}
+\DoxyCodeLine{FetchContent\_Declare(}
+\DoxyCodeLine{\ \ googletest}
+\DoxyCodeLine{\ \ URL\ https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip}
+\DoxyCodeLine{\ \ DOWNLOAD\_EXTRACT\_TIMESTAMP\ ON}
+\DoxyCodeLine{)}
+\DoxyCodeLine{\#\ For\ Windows:\ Prevent\ overriding\ the\ parent\ project's\ compiler/linker\ settings}
+\DoxyCodeLine{set(gtest\_force\_shared\_crt\ ON\ CACHE\ BOOL\ "{}"{}\ FORCE)}
+\DoxyCodeLine{FetchContent\_MakeAvailable(googletest)}
+\DoxyCodeLine{}
+\DoxyCodeLine{enable\_testing()}
+\DoxyCodeLine{}
+\DoxyCodeLine{add\_subdirectory(tests)}
+
+\end{DoxyCode}
+
+
+Card concepts\+:
+
+Club Spade Diamond Heart
+
+\DoxyHorRuler{0}
+ \texorpdfstring{$\vert$}{|} ACE \texorpdfstring{$\vert$}{|} \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{1}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ CLUB    }\\\cline{1-1}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ CLUB    }\\\cline{1-1}
+\endhead
+\\\cline{1-1}
+\\\cline{1-1}
+CLUB    \\\cline{1-1}
+ACE    \\\cline{1-1}
+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+   \\\cline{1-1}
+\end{longtabu}
+
+
+\DoxyHorRuler{0}
+ \texorpdfstring{$\vert$}{|} ACE \texorpdfstring{$\vert$}{|} \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{1}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ CLUB    }\\\cline{1-1}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ CLUB    }\\\cline{1-1}
+\endhead
+\\\cline{1-1}
+\\\cline{1-1}
+CLUB    \\\cline{1-1}
+ACE    \\\cline{1-1}
+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+   \\\cline{1-1}
+\end{longtabu}
+
+
+\DoxyHorRuler{0}
+ \texorpdfstring{$\vert$}{|} A \texorpdfstring{$\vert$}{|} 10 \texorpdfstring{$\vert$}{|} \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ C   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ DIAMONDS    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ C   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ DIAMONDS    }\\\cline{1-2}
+\endhead
+&\\\cline{1-2}
+&\\\cline{1-2}
+&DIAMONDS    \\\cline{1-2}
+&10    \\\cline{1-2}
+\+\_\+\+\_\+\+\_\+   &\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+   \\\cline{1-2}
+\end{longtabu}
+
+
+\DoxyHorRuler{0}
+ \texorpdfstring{$\vert$}{|} A \texorpdfstring{$\vert$}{|} 10\texorpdfstring{$\vert$}{|} 3 \texorpdfstring{$\vert$}{|} \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ C   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ D   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ HEARTS    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ C   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ D   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ HEARTS    }\\\cline{1-3}
+\endhead
+&&\\\cline{1-3}
+&&\\\cline{1-3}
+&&HEARTS    \\\cline{1-3}
+&&3    \\\cline{1-3}
+\+\_\+\+\_\+\+\_\+   &\+\_\+\+\_\+\+\_\+   &\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+\+\_\+   \\\cline{1-3}
+\end{longtabu}
+
+
+///////////////////////////////////////////////////// \begin{DoxyVerb} ______    __   __    _______    ________   __
+|  __  \  |  | |  |  |       |  |___  ___| |  |
+|_   __/  |  | |  |  |    ___|     |  |    |  |
+|  __  \  |  | |  |   \___  \      |  |    |__| 
+|      |  |  |_|  |  |       |     |  |     __ 
+|______/  |_______|  |_______|     |__|    |__|
+\end{DoxyVerb}
+ \textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{} 

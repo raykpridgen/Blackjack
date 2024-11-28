@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\raykp\OneDrive\Desktop\Junior\CS207\code\RKP_BlackJack\tests\build\CMakeFiles\0fdaf01221b3a15d7f0778213dc644db\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{E15378DF-5CAB-3ADF-8A8D-70D7156297FB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

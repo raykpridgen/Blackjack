@@ -1,0 +1,10 @@
+^C:\USERS\RAYKP\ONEDRIVE\DESKTOP\JUNIOR\CS207\CODE\RKP_BLACKJACK\BUILD\CMAKEFILES\86FBB862790B8C55F17A3AF6D3E8C4C8\GENERATE.STAMP.RULE
+setlocal
+C:\mingw64\bin\cmake.exe -SC:/Users/raykp/OneDrive/Desktop/Junior/CS207/code/RKP_BlackJack -BC:/Users/raykp/OneDrive/Desktop/Junior/CS207/code/RKP_BlackJack/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/raykp/OneDrive/Desktop/Junior/CS207/code/RKP_BlackJack/build/blackjack.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
